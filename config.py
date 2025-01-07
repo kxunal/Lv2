@@ -19,10 +19,10 @@ MONGO_DB_URI = "mongodb+srv://github9210:ieMwBAIuNl2NEMRO@cluster0.lcwkg5r.mongo
 DURATION_LIMIT_MIN = int(getenv("DURATION_LIMIT", 6000))
 
 # Chat id of a group for logging bot's activities
-LOGGER_ID = "-1002064111110"
+LOGGER_ID = -1002064111110
 
 # Get this value from @FallenxBot on Telegram by /id
-OWNER_ID = int(getenv("OWNER_ID", 1265397721))
+OWNER_ID = 6257927828
 
 ## Fill these variables if you're deploying on heroku.
 # Your heroku app name
@@ -32,27 +32,27 @@ HEROKU_API_KEY = getenv("HEROKU_API_KEY")
 
 UPSTREAM_REPO = getenv(
     "UPSTREAM_REPO",
-    "https://github.com/HeartKing88/QUEEN",
+    "https://github.com/koreansmu/StormVortexLv2",
 )
 UPSTREAM_BRANCH = getenv("UPSTREAM_BRANCH", "master")
 GIT_TOKEN = getenv(
-    "GIT_TOKEN", None
+    "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"
 )  # Fill this variable if your upstream repository is private
 
-SUPPORT_CHANNEL = getenv("SUPPORT_CHANNEL", "https://t.me/Botz_x_hub")
-SUPPORT_CHAT = getenv("SUPPORT_CHAT", "https://t.me/alice_x_support")
+SUPPORT_CHANNEL = getenv("SUPPORT_CHANNEL", "https://t.me/storm_techh")
+SUPPORT_CHAT = getenv("SUPPORT_CHAT", "https://t.me/storm_core")
 
 # Set this to True if you want the assistant to automatically leave chats after an interval
 AUTO_LEAVING_ASSISTANT = bool(getenv("AUTO_LEAVING_ASSISTANT", False))
 
 
 # Get this credentials from https://developer.spotify.com/dashboard
-SPOTIFY_CLIENT_ID = getenv("SPOTIFY_CLIENT_ID", "95f4f5c6df5744698035a0948e801ad9")
-SPOTIFY_CLIENT_SECRET = getenv("SPOTIFY_CLIENT_SECRET", "4b03167b38c943c3857333b3f5ea95ea")
+SPOTIFY_CLIENT_ID = getenv("SPOTIFY_CLIENT_ID", "2d3fd5ccdd3d43dda6f17864d8eb7281")
+SPOTIFY_CLIENT_SECRET = getenv("SPOTIFY_CLIENT_SECRET", "48d311d8910a4531ae81205e1f754d27")
 
 
 # Maximum limit for fetching playlist's track from youtube, spotify, apple links.
-PLAYLIST_FETCH_LIMIT = int(getenv("PLAYLIST_FETCH_LIMIT", 25))
+PLAYLIST_FETCH_LIMIT = int(getenv("PLAYLIST_FETCH_LIMIT", 50))
 
 
 # Telegram audio and video file size limit (in bytes)
@@ -62,7 +62,7 @@ TG_VIDEO_FILESIZE_LIMIT = int(getenv("TG_VIDEO_FILESIZE_LIMIT", 1073741824))
 
 
 # Get your pyrogram v2 session from @StringFatherBot on Telegram
-STRING1 = getenv("STRING_SESSION", None)
+STRING1 = "BQF37cIAFMBWpYCTsAHMEvvVD1Nrn2omYdDMCGGIe5mJCcEye44awozXzZzzPWccHDE7upUzTUHH3OEFHYFv7n99HsStvJWSO2HU29PRBZS9mEqgrS6hdqSZjkra4Xli56tfrdHvdW9HFH5PzpqMCctVFy9UCSv_qdxBr83Os50LP6aAtV5LQXfnd4O0sZ1OHb8DZAorAB6hjERyzutjnWIwVkSME_-Ex12YMQB3d7AHfURgoaJaOqMF4IwUQzHZR58WZfTzC8Cn7r81oOYP7vmKMn7GLd_42clnzW7NvhUfFS2f6e-5eNeAra9pkFSRY-y0S4H00PGfqAAZVkexvSLYapp0agAAAAG3FNOBAA"
 STRING2 = getenv("STRING_SESSION2", None)
 STRING3 = getenv("STRING_SESSION3", None)
 STRING4 = getenv("STRING_SESSION4", None)
