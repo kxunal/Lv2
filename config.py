@@ -36,7 +36,7 @@ UPSTREAM_REPO = getenv(
 )
 UPSTREAM_BRANCH = getenv("UPSTREAM_BRANCH", "master")
 GIT_TOKEN = getenv(
-    "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"
+    "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"
 )  # Fill this variable if your upstream repository is private
 
 SUPPORT_CHANNEL = getenv("SUPPORT_CHANNEL", "https://t.me/storm_techh")
