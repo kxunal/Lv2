@@ -24,7 +24,6 @@ def testspeed(m, _):
         return m.edit_text(f"<code>{e}</code>")
     return result
 
-
 @app.on_message(filters.command(["speedtest", "spt"]) & SUDOERS)
 @language
 async def speedtest_function(client, message: Message, _):
