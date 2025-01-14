@@ -1,6 +1,5 @@
 import platform
 from sys import version as pyver
-
 import psutil
 from pyrogram import __version__ as pyrover
 from pyrogram import filters
