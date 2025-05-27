@@ -18,7 +18,6 @@ import os
 import glob
 import random
 import logging
-from config import API_URL  # Ensure this is defined in config.py
 
 
 import requests
@@ -40,8 +39,9 @@ def extract_video_id(link: str) -> str:
         if match:
             return match.group(1)
     raise ValueError("Invalid YouTube link provided.")
+from config import API_URL
 def apii_dl(video_id: str) -> str:
-    api_url = f"{API_URL}arytmp3?direct&id={video_id}"
+    api_url = f"{API_URL}/arytmp3?direct&id={video_id}"
     file_path = os.path.join("downloads", f"{video_id}.mp3")
 
     if os.path.exists(file_path):
@@ -63,9 +63,9 @@ def apii_dl(video_id: str) -> str:
 
 import os
 import requests
-
+from config import API_URL
 def api_dl(video_id: str) -> str:
-    api_url = f"{API_URL}arytmp3?direct&id={video_id}"
+    api_url = f"{API_URL}/arytmp3?direct&id={video_id}"
     file_path = os.path.join("downloads", f"{video_id}.mp3")
 
     if os.path.exists(file_path):
