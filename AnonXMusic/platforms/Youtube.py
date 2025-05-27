@@ -18,11 +18,12 @@ import os
 import glob
 import random
 import logging
-import time
 import requests
-from config import API_URL  # Updated config key
+import time
 
-MIN_FILE_SIZE = 51200
+from config import API_URL  # Make sure this ends with a '/'
+
+MIN_FILE_SIZE = 51200  # 50 KB
 DOWNLOAD_DIR = "downloads"
 
 def extract_video_id(link: str) -> str:
@@ -64,14 +65,17 @@ def api_dl(input_str: str) -> str | None:
             f"{API_URL}arytmp3?direct&id={input_str}"
         )
 
+        print(f"Requesting: {api_url}")
         response = requests.get(api_url, stream=True, timeout=15)
+        print(f"Response status: {response.status_code}")
+
         if response.status_code == 200:
             save_response_content(response, file_path)
             if is_valid_file(file_path):
                 print(f"Downloaded: {file_path}")
                 return file_path
             else:
-                print("File too small. Removing.")
+                print("File too small or corrupted. Removing.")
                 os.remove(file_path)
         else:
             print(f"Download failed. Status: {response.status_code}")
@@ -79,6 +83,7 @@ def api_dl(input_str: str) -> str | None:
         print(f"Download error: {e}")
 
     return None
+
 
 
 
