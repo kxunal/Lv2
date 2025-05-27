@@ -14,13 +14,13 @@ from AnonXMusic.utils.formatters import time_to_seconds
 
 
 
-
+import os
 import glob
 import random
 import logging
 import requests
 import time
-from config import API_URL  # Make sure this ends with a '/'
+from config import API_URL  # Ensure it ends with a slash
 
 MIN_FILE_SIZE = 51200  # 50 KB
 DOWNLOAD_DIR = "downloads"
@@ -41,40 +41,36 @@ def extract_video_id(link: str) -> str:
 def is_valid_file(path: str) -> bool:
     return os.path.exists(path) and os.path.getsize(path) >= MIN_FILE_SIZE
 
-def save_response_content(response, path: str):
-    with open(path, 'wb') as f:
-        for chunk in response.iter_content(chunk_size=8192):
-            if chunk:
-                f.write(chunk)
-
 def api_dl(input_str: str) -> str | None:
     is_url = input_str.startswith("http")
     video_id = extract_video_id(input_str) if is_url else input_str
     file_path = os.path.join(DOWNLOAD_DIR, f"{video_id}.mp3")
 
     if is_valid_file(file_path):
-        print(f"{file_path} already exists. Skipping download.")
+        print(f"{file_path} already exists and is valid. Skipping download.")
         return file_path
 
+    os.makedirs(DOWNLOAD_DIR, exist_ok=True)
+
+    api_url = (
+        f"{API_URL}arytmp3?url={input_str}"
+        if is_url else
+        f"{API_URL}arytmp3?direct&id={input_str}"
+    )
+
     try:
-        os.makedirs(DOWNLOAD_DIR, exist_ok=True)
-        api_url = (
-            f"{API_URL}arytmp3?url={input_str}"
-            if is_url else
-            f"{API_URL}arytmp3?direct&id={input_str}"
-        )
-
-        print(f"Requesting: {api_url}")
         response = requests.get(api_url, stream=True, timeout=15)
-        print(f"Response status: {response.status_code}")
-
         if response.status_code == 200:
-            save_response_content(response, file_path)
+            with open(file_path, 'wb') as f:
+                for chunk in response.iter_content(chunk_size=8192):
+                    if chunk:
+                        f.write(chunk)
+
             if is_valid_file(file_path):
-                print(f"Downloaded: {file_path}")
+                print(f"Downloaded and validated: {file_path}")
                 return file_path
             else:
-                print("File too small or corrupted. Removing.")
+                print("Downloaded file too small. Removing.")
                 os.remove(file_path)
         else:
             print(f"Download failed. Status: {response.status_code}")
