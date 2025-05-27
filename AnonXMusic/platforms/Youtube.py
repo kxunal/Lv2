@@ -18,6 +18,69 @@ import os
 import glob
 import random
 import logging
+import time
+import requests
+from config import API_URL  # Updated config key
+
+MIN_FILE_SIZE = 51200
+DOWNLOAD_DIR = "downloads"
+
+def extract_video_id(link: str) -> str:
+    patterns = [
+        r'youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=)([0-9A-Za-z_-]{11})',
+        r'youtu\.be\/([0-9A-Za-z_-]{11})',
+        r'youtube\.com\/(?:playlist\?list=[^&]+&v=|v\/)([0-9A-Za-z_-]{11})',
+        r'youtube\.com\/(?:.*\?v=|.*\/)([0-9A-Za-z_-]{11})'
+    ]
+    for pattern in patterns:
+        match = re.search(pattern, link)
+        if match:
+            return match.group(1)
+    raise ValueError("Invalid YouTube link provided.")
+
+def is_valid_file(path: str) -> bool:
+    return os.path.exists(path) and os.path.getsize(path) >= MIN_FILE_SIZE
+
+def save_response_content(response, path: str):
+    with open(path, 'wb') as f:
+        for chunk in response.iter_content(chunk_size=8192):
+            if chunk:
+                f.write(chunk)
+
+def api_dl(input_str: str) -> str | None:
+    is_url = input_str.startswith("http")
+    video_id = extract_video_id(input_str) if is_url else input_str
+    file_path = os.path.join(DOWNLOAD_DIR, f"{video_id}.mp3")
+
+    if is_valid_file(file_path):
+        print(f"{file_path} already exists. Skipping download.")
+        return file_path
+
+    try:
+        os.makedirs(DOWNLOAD_DIR, exist_ok=True)
+        api_url = (
+            f"{API_URL}arytmp3?url={input_str}"
+            if is_url else
+            f"{API_URL}arytmp3?direct&id={input_str}"
+        )
+
+        response = requests.get(api_url, stream=True, timeout=15)
+        if response.status_code == 200:
+            save_response_content(response, file_path)
+            if is_valid_file(file_path):
+                print(f"Downloaded: {file_path}")
+                return file_path
+            else:
+                print("File too small. Removing.")
+                os.remove(file_path)
+        else:
+            print(f"Download failed. Status: {response.status_code}")
+    except requests.RequestException as e:
+        print(f"Download error: {e}")
+
+    return None
+
+
 
 def cookie_txt_file():
     folder_path = f"{os.getcwd()}/cookies"
